@@ -1,3 +1,5 @@
+import SimpleLightbox from 'simplelightbox';
+import 'simplelightbox/dist/simple-lightbox.min.css';
 import images from './gallery-items';
 
 // Находим ненумерованный список галереи
@@ -8,9 +10,6 @@ const galleryMarkup = createGalleryItemsMarkup(images);
 
 // Добавляем в конец галереи все изображения
 galleryContainer.insertAdjacentHTML('beforeend', galleryMarkup);
-
-// Добавляем на галерею слушатель события
-galleryContainer.addEventListener('click', onGalleryContainerClick);
 
 // Функция рендера изображений
 function createGalleryItemsMarkup(images) {
@@ -23,7 +22,6 @@ function createGalleryItemsMarkup(images) {
       loading="lazy"
       class="gallery-image lazyload"
       data-src="${preview}"
-      data-source="${original}"
       alt="${description}"
     />
   </a>
@@ -33,73 +31,12 @@ function createGalleryItemsMarkup(images) {
     .join('');
 }
 
-// Функция делегирования событий
-function onGalleryContainerClick(evt) {
-  evt.preventDefault();
-
-  const imageEl = evt.target;
-
-  if (!imageEl.classList.contains('gallery-image')) {
-    return;
-  }
-
-  createModal(imageEl.dataset.source);
-}
-
-// Функция создания модельного окна c опциями и метод - открыть
-function createModal(element) {
-  const instance = basicLightbox.create(
-    `
-     <div class="modal-backdrop">
-      <img src="${element}" style="width: 1112px" />
-    </div>
-`,
-    {
-      handler: null,
-      onShow(instance) {
-        this.handler = closeModal.bind(instance);
-        document.addEventListener('keydown', this.handler);
-
-        closeModalOnClickBackdrop(instance);
-        bodyAddClassScroll();
-      },
-
-      onClose() {
-        document.removeEventListener('keydown', this.handler);
-        bodyRemoveClassScroll();
-      },
-    }
-  );
-
-  instance.show();
-}
-
-// Функция добавления на body класса выключения Scroll
-function bodyAddClassScroll() {
-  document.body.classList.add('no-scroll');
-}
-
-// Функция снятия c body класса выключения Scroll
-function bodyRemoveClassScroll() {
-  document.body.classList.remove('no-scroll');
-}
-
-// Функцмя закрытие модельного окна при клике на backdrop
-function closeModalOnClickBackdrop(instance) {
-  const backdrop = instance.element().querySelector('.modal-backdrop');
-  backdrop.addEventListener('click', evt => {
-    if (evt.target === backdrop) {
-      instance.close();
-    }
-  });
-}
-
-// Функция закрытия модельного окна
-function closeModal(evt) {
-  if (evt.code === 'Escape') {
-    this.close();
-  }
-}
+//Создание экземпляра модельного окна SimpleLightbox с дополнительными настройками
+new SimpleLightbox('.gallery a', {
+  captionsData: 'alt',
+  captionPosition: 'bottom',
+  captionDelay: 250,
+});
 
 // Кроссбраузерная отложенная загрузка изображений
 if ('loading' in HTMLImageElement.prototype) {
