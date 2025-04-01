@@ -14,7 +14,11 @@ function onInput(evt) {
   formData.email = formEl.elements.email.value.trim();
   formData.message = formEl.elements.message.value.trim();
 
-  localStorage.setItem('feedback-form-state', JSON.stringify(formData));
+  if (formData.email === '' && formData.message === '') {
+    return;
+  } else {
+    localStorage.setItem('feedback-form-state', JSON.stringify(formData));
+  }
 }
 
 function onFormSubmit(evt) {
