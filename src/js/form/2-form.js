@@ -12,7 +12,7 @@ formEl.addEventListener('input', onInput);
 // Слушатель события отправки данных
 formEl.addEventListener('submit', onFormSubmit);
 
-// Обработчик слушателя события ввода данных (по методу делегирования)
+// Функция обработчика слушателя события ввода данных (по методу делегирования)
 function onInput(evt) {
   // formData.email = formEl.elements.email.value.trim(); // Обращение к элементу формы напрямую
   // formData.message = formEl.elements.message.value.trim(); // Обращение к элементу формы напрямую
@@ -31,7 +31,7 @@ function onInput(evt) {
 // Вызов функции записи данных в форму из localStorage и передача ему аргументом нашей формы
 populateForm(formEl);
 
-// Обработчик слушателя события отправки данных (по методу делегирования)
+// Функция обработчика слушателя события отправки данных (по методу делегирования)
 function onFormSubmit(evt) {
   evt.preventDefault();
 
