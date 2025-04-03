@@ -21,9 +21,12 @@
   color: #212121;
   line-height: 1.5;
   background-image: url('../img/background-image.jpg');
-
-  background-position: center;
 }
+
+/* body.modal-open {
+  overflow: hidden; 
+  padding-right: 17px; 
+} */
 
 .gallery {
   display: grid;
