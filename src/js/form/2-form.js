@@ -1,32 +1,44 @@
+// Получем в переменную нашу форму из HTML
 const formEl = document.querySelector('.feedback-form');
 
+// Создаём объект с пустыми свойствами для записи данных и сохранения его в localStorage
 const formData = {
   email: '',
   message: '',
 };
 
+// Слушатель события ввода данных
 formEl.addEventListener('input', onInput);
+// Слушатель события отправки данных
 formEl.addEventListener('submit', onFormSubmit);
 
-populateForm();
-
+// Обработчик слушателя события ввода данных (по методу делегирования)
 function onInput(evt) {
-  formData.email = formEl.elements.email.value.trim();
-  formData.message = formEl.elements.message.value.trim();
+  // formData.email = formEl.elements.email.value.trim(); // Обращение к элементу формы напрямую
+  // formData.message = formEl.elements.message.value.trim(); // Обращение к элементу формы напрямую
+  const formElements = evt.currentTarget.elements;
+  formData.email = formElements.email.value.trim();
+  formData.message = formElements.message.value.trim();
 
-  if (formData.email === '' && formData.message === '') {
-    return;
-  } else {
+  if (formData.email !== '' || formData.message !== '') {
     localStorage.setItem('feedback-form-state', JSON.stringify(formData));
+  } else {
+    localStorage.removeItem('feedback-form-state');
+    return;
   }
 }
 
+// Вызов функции записи данных в форму из localStorage и передача ему аргументом нашей формы
+populateForm(formEl);
+
+// Обработчик слушателя события отправки данных (по методу делегирования)
 function onFormSubmit(evt) {
   evt.preventDefault();
 
+  const formElements = evt.currentTarget.elements;
   if (
-    formEl.elements.email.value.trim() === '' ||
-    formEl.elements.message.value.trim() === ''
+    formElements.email.value.trim() === '' ||
+    formElements.message.value.trim() === ''
   ) {
     window.alert('Fill please all fields');
   } else {
@@ -40,11 +52,11 @@ function onFormSubmit(evt) {
   }
 }
 
-function populateForm() {
+// Функция записи данных в форму из localStorage
+function populateForm(form) {
+  const formElements = form.elements;
   const savedForm = JSON.parse(localStorage.getItem('feedback-form-state'));
 
-  if (savedForm) {
-    formEl.elements.email.value = savedForm.email;
-    formEl.elements.message.value = savedForm.message;
-  }
+  formElements.email.value = savedForm.email;
+  formElements.message.value = savedForm.message;
 }
