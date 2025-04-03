@@ -12,6 +12,9 @@ formEl.addEventListener('input', onInput);
 // Слушатель события отправки данных
 formEl.addEventListener('submit', onFormSubmit);
 
+// Вызов функции записи данных в форму из localStorage и передача ему аргументом нашей формы
+populateForm(formEl);
+
 // Функция обработчика слушателя события ввода данных (по методу делегирования)
 function onInput(evt) {
   // formData.email = formEl.elements.email.value.trim(); // Обращение к элементу формы напрямую
@@ -27,9 +30,6 @@ function onInput(evt) {
     return;
   }
 }
-
-// Вызов функции записи данных в форму из localStorage и передача ему аргументом нашей формы
-populateForm(formEl);
 
 // Функция обработчика слушателя события отправки данных (по методу делегирования)
 function onFormSubmit(evt) {
@@ -57,6 +57,11 @@ function populateForm(form) {
   const formElements = form.elements;
   const savedForm = JSON.parse(localStorage.getItem('feedback-form-state'));
 
-  formElements.email.value = savedForm.email;
-  formElements.message.value = savedForm.message;
+  if (savedForm) {
+    formData.email = savedForm.email;
+    formData.message = savedForm.message;
+
+    formElements.email.value = formData.email;
+    formElements.message.value = formData.message;
+  }
 }
