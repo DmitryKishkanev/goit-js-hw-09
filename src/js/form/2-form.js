@@ -1,5 +1,10 @@
+import throttle from 'lodash.throttle';
+
 // Получем в переменную нашу форму из HTML
 const formEl = document.querySelector('.feedback-form');
+
+// Переменная для хранения localStorage ключа
+const STORAGE_KEY = 'feedback-form-state';
 
 // Создаём объект с пустыми свойствами для записи данных и сохранения его в localStorage
 const formData = {
@@ -7,8 +12,8 @@ const formData = {
   message: '',
 };
 
-// Слушатель события ввода данных
-formEl.addEventListener('input', onInput);
+// Слушатель события ввода данных и throttle (функия выполняется один раз в указанный промежкток времени)
+formEl.addEventListener('input', throttle(onInput, 500));
 // Слушатель события отправки данных
 formEl.addEventListener('submit', onFormSubmit);
 
@@ -24,9 +29,9 @@ function onInput(evt) {
   formData.message = formElements.message.value.trim();
 
   if (formData.email !== '' || formData.message !== '') {
-    localStorage.setItem('feedback-form-state', JSON.stringify(formData));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
   } else {
-    localStorage.removeItem('feedback-form-state');
+    localStorage.removeItem(STORAGE_KEY);
     return;
   }
 }
@@ -50,7 +55,7 @@ function onFormSubmit(evt) {
 
     formData.email = '';
     formData.message = '';
-    localStorage.removeItem('feedback-form-state');
+    localStorage.removeItem(STORAGE_KEY);
     evt.currentTarget.reset();
   }
 }
@@ -58,7 +63,7 @@ function onFormSubmit(evt) {
 // Функция записи данных в форму из localStorage
 function populateForm(form) {
   const formElements = form.elements;
-  const savedForm = JSON.parse(localStorage.getItem('feedback-form-state'));
+  const savedForm = JSON.parse(localStorage.getItem(STORAGE_KEY));
 
   if (savedForm) {
     formData.email = savedForm.email;
