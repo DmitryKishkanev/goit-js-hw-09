@@ -24,11 +24,14 @@ populateForm(formEl);
 function onInput(evt) {
   // formData.email = formEl.elements.email.value.trim(); // Обращение к элементу формы напрямую
   // formData.message = formEl.elements.message.value.trim(); // Обращение к элементу формы напрямую
-  const formElements = evt.currentTarget.elements;
-  formData.email = formElements.email.value.trim();
-  formData.message = formElements.message.value.trim();
 
-  if (formData.email !== '' || formData.message !== '') {
+  const { name, value } = evt.target;
+  formData[name] = value.trim();
+
+  // Проверяем, есть ли хотябы одно поле, значение которого не пустое
+  const hasData = Object.values(formData).some(field => field !== '');
+
+  if (hasData) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
   } else {
     localStorage.removeItem(STORAGE_KEY);
@@ -43,33 +46,31 @@ populateForm(formEl);
 function onFormSubmit(evt) {
   evt.preventDefault();
 
-  const formElements = evt.currentTarget.elements;
-  if (
-    formElements.email.value.trim() === '' ||
-    formElements.message.value.trim() === ''
-  ) {
+  const { email, message } = formData;
+  if (!email || !message) {
     window.alert('Fill please all fields');
-  } else {
-    const formDataSnapshot = { ...formData };
-    console.log(formDataSnapshot);
-
-    formData.email = '';
-    formData.message = '';
-    localStorage.removeItem(STORAGE_KEY);
-    evt.currentTarget.reset();
+    return;
   }
+  const formDataSnapshot = { ...formData };
+  console.log(formDataSnapshot);
+
+  // Очистка данных
+  localStorage.removeItem(STORAGE_KEY);
+  formEl.reset();
+  formData.email = '';
+  formData.message = '';
 }
 
 // Функция записи данных в форму из localStorage
 function populateForm(form) {
-  const formElements = form.elements;
   const savedForm = JSON.parse(localStorage.getItem(STORAGE_KEY));
 
   if (savedForm) {
-    formData.email = savedForm.email;
-    formData.message = savedForm.message;
-
-    formElements.email.value = formData.email;
-    formElements.message.value = formData.message;
+    Object.keys(savedForm).forEach(key => {
+      if (form.elements[key]) {
+        form.elements[key].value = savedForm[key];
+        formData[key] = savedForm[key];
+      }
+    });
   }
 }
