@@ -3,8 +3,8 @@
   --animation-duration: 250ms;
 }
 
-.body-form {
-  background-image: url('../img/floor.jpg');
+body {
+  background-image: url('../img/form.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;

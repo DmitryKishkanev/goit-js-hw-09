@@ -7,7 +7,7 @@
   box-sizing: border-box;
 }
 
-.body-gallery {
+body {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -20,7 +20,7 @@
   background-color: #f5f5f5;
   color: #212121;
   line-height: 1.5;
-  background-image: url('../img/background-image.jpg');
+  background-image: url('../img/gallery.jpg');
 }
 
 /* body.modal-open {

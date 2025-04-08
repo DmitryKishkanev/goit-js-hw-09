@@ -1,5 +1,6 @@
 import SimpleLightbox from 'simplelightbox';
 import 'simplelightbox/dist/simple-lightbox.min.css';
+import '../../css/gallery.css';
 import images from './gallery-items';
 
 // Находим ненумерованный список галереи

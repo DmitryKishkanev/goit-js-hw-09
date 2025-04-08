@@ -1,4 +1,5 @@
 import throttle from 'lodash.throttle';
+import '../../css/form.css';
 
 // Получем в переменную нашу форму из HTML
 const formEl = document.querySelector('.feedback-form');
