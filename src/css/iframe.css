@@ -1,7 +1,6 @@
-.body-iframe {
+body {
   display: flex;
   justify-content: center;
-  /* align-items: center; */
 
   background-image: url('../img/iframe.jpg');
   background-size: cover;
