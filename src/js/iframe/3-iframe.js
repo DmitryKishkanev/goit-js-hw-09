@@ -2,13 +2,18 @@ import Player from '@vimeo/player';
 import throttle from 'lodash.throttle';
 import '../../css/iframe.css';
 
-const iframe = document.querySelector('iframe');
+// Получем в переменную наш vimeo-player из HTML
+const iframe = document.querySelector('#vimeo-player');
 
+// Переменная для хранения localStorage ключа
 const STORAGE_KEY = 'videoplayer-current-time';
 
+//Инициализируем плеер, как описано в библиотеке Vimeo
 const player = new Player(iframe);
+// С помощью метода on() отслеживаем событие timeupdate. Throttle - ограничивает время обновляется - раз в секунду
 player.on('timeupdate', throttle(onPlay, 1000));
 
+// Функция обработчика слушателя события обновления времени
 function onPlay(data) {
   localStorage.setItem(STORAGE_KEY, data.seconds);
 }
