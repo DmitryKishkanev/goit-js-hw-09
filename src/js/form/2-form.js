@@ -40,9 +40,6 @@ function onInput(evt) {
   }
 }
 
-// Вызов функции записи данных в форму из localStorage и передача ему аргументом нашей формы
-populateForm(formEl);
-
 // Функция обработчика слушателя события отправки данных (по методу делегирования)
 function onFormSubmit(evt) {
   evt.preventDefault();
