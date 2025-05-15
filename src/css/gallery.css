@@ -20,7 +20,10 @@ body {
   background-color: #f5f5f5;
   color: #212121;
   line-height: 1.5;
-  background-image: url('../img/gallery.jpg');
+  background-image: url('../img/background-image.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 /* body.modal-open {
